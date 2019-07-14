@@ -1,0 +1,2 @@
+# zarcash
+Zarcash New Chain 
