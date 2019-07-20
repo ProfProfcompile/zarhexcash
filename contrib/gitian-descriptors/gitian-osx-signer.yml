@@ -1,0 +1,39 @@
+---
+name: "zarhexcash-dmg-signer"
+suites:
+- "xenial"
+architectures:
+- "amd64"
+docker_image_digests:
+- "e547ecaba7d078800c358082088e6cc710c3affd1b975601792ec701c80cdd39"
+packages:
+- "faketime"
+remotes:
+- "url": "https://github.com/ZarhexcashPay/ZarhexcashCore"
+  "dir": "signature"
+files:
+- "zarhexcash-osx-unsigned.tar.gz"
+script: |
+  WRAP_DIR=$HOME/wrapped
+  mkdir -p ${WRAP_DIR}
+  export PATH=`pwd`:$PATH
+  FAKETIME_PROGS="dmg genisoimage"
+
+  # Create global faketime wrappers
+  for prog in ${FAKETIME_PROGS}; do
+    echo '#!/bin/bash' > ${WRAP_DIR}/${prog}
+    echo "REAL=\`which -a ${prog} | grep -v ${WRAP_DIR}/${prog} | head -1\`" >> ${WRAP_DIR}/${prog}
+    echo 'export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1' >> ${WRAP_DIR}/${prog}
+    echo "export FAKETIME=\"${REFERENCE_DATETIME}\"" >> ${WRAP_DIR}/${prog}
+    echo "\$REAL \$@" >> $WRAP_DIR/${prog}
+    chmod +x ${WRAP_DIR}/${prog}
+  done
+
+  UNSIGNED=zarhexcash-osx-unsigned.tar.gz
+  SIGNED=zarhexcash-osx-signed.dmg
+
+  tar -xf ${UNSIGNED}
+  OSX_VOLNAME="$(cat osx_volname)"
+  ./detached-sig-apply.sh ${UNSIGNED} signature/osx
+  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "ALQO-Qt" -no-pad -r -dir-mode 0755 -apple -o uncompressed.dmg signed-app
+  ${WRAP_DIR}/dmg dmg uncompressed.dmg ${OUTDIR}/${SIGNED}
