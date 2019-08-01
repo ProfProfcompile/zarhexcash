@@ -1,2 +1,14 @@
-Zarhexcash Coin (ZAH) is a digital currency which is planned to be used as a sole means of payment in various decentralized applications (DApps) based on the Zarhexcash blockchain.  When establishing the system, the project team [made sure](https://zarhexcashpay.network/pages/governance-mechanism-of-zarhexcash) to adhere to the ideals of decentralization. In practice, this means no more financial scandals based on the conflict of interests. The Zarhexcash Coin network is operated by masternode owners. All masternode owners have made an initial investment of ZAH and thus they are interested in the increase of the system well-being. Various votes will be held to ensure the safe future of the project.
+Zarhexcash Coin (ZARH) 
 
+Coin specs 
+Tickername Zarhexcash 
+Ticker : zarh 
+Algo quark
+Retarget 3 blocks 
+Mn requirements 8500000
+Mn active 30k blocks
+Goal of coin - exchange asset for future release of zarhex exchange
+Rewards 1000 per block
+Rewards dist 65%mn 25% pos after block 30000
+Block time 75 sec 
+Block confirm 100
